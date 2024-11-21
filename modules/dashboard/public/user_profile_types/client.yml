@@ -1,0 +1,27 @@
+---
+metadata:
+  label: Client
+properties:
+- name: is_enabled
+  metadata:
+    type: toggle
+    label: Is Enabled
+    weight: 1
+    options: []
+  type: boolean
+- name: is_activated
+  metadata:
+    type: toggle
+    label: Is Activated
+    weight: 2
+    options: []
+  type: boolean
+- name: verification_token
+  type: string
+- name: company_uuid
+  type: string
+- name: otp_configured
+  type: boolean
+- name: is_currently_logged_in
+  type: boolean
+---

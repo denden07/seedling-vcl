@@ -1,0 +1,51 @@
+---
+async_callback_actions:
+  delay: '0'
+  content: "{% comment %} Create Event Stream {% endcomment %}\n{% parse_json info
+    %}\n{\n  \"description\": \"My Details Updated\",\n  \"log\": {\n    \"first_name\":
+    \"{{ form.first_name }}\",\n    \"last_name\": \"{{ form.last_name }}\",\n    \"email\":
+    \"{{ form.email }}\"  \n  }\n}\n{% endparse_json %}\n{% include 'modules/dashboard/events/log_event',
+    info %}"
+  max_attempts: 2
+  priority: low
+fields:
+  email:
+    validation:
+      unique:
+        message: Email already exist
+      presence:
+        message: Please use a valid email address
+      email:
+        message: Please use a valid email address
+  first_name:
+    validation:
+      presence:
+        message: First name is required
+  last_name:
+    validation:
+      presence:
+        message: Last name is required
+flash_alert: Error-My-Details
+flash_notice: Success-My-Details
+name: modules/dashboard/my_details
+redirect_to: profile
+resource: User
+resource_owner: anyone
+---
+{%- form 
+    html-id: "user-profile-form"
+    html-class: 'insites-form insites-form-code' 
+    html-novalidate: true
+    html-enctype="multipart/form-data"
+    html-onsubmit:"return UserProfileScript.methods.validateForm(event);" -%}
+
+    <div class="insites-form-grid seedling-form-container seedling-form-container-profile">
+
+      <input type="hidden" name="{{ form.fields.properties.default_address.name }}"  value="{{ data.default_address.id }}" >
+      <input type="hidden" name="{{ form.fields.properties.contact_address_uuid.name }}" value="{{ data.default_address.properties.uuid }}" >
+      
+      {% include 'modules/dashboard/account/registration_personal_details', data: data %}
+              
+    </div>
+
+{%- endform -%}
